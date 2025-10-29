@@ -32,7 +32,7 @@
                     placeholder="Enter article title...">
             </div>
             <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-2">Slug <span
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Slug<span
                         class="text-red-500">*</span></label>
                 <input type="text" id="slug" name="slug" value="{{ old('slug', $article->slug ?? '') }}"
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"

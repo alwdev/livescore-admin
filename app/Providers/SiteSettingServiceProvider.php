@@ -58,14 +58,16 @@ class SiteSettingServiceProvider extends ServiceProvider
     {
         return (object) [
             'site_name' => 'Livescore Admin',
-            'site_logo' => null,
-            'site_description' => 'Football Management Dashboard',
-            'site_url' => config('app.url'),
-            'admin_email' => 'admin@livescore.com',
-            'maintenance_mode' => false,
+            'logo' => null, // ✅ เปลี่ยนชื่อให้ตรงกับคอลัมน์ใน DB
+            'favicon' => null,
             'seo_title' => 'Livescore Admin',
             'seo_description' => 'Complete football management dashboard',
             'seo_keywords' => 'livescore, football, admin',
+            'contact_email' => 'admin@livescore.com',
+            'contact_phone' => null,
+            'contact_address' => null,
+            'facebook' => null,
+            'twitter' => null,
         ];
     }
 }

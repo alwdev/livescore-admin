@@ -26,6 +26,7 @@ class ArticleController extends Controller
     {
         $data = $request->validate([
             'title' => 'required|string|max:255',
+            'slug' => 'required|string|max:255',
             'content' => 'nullable|string',
             'status' => 'required|in:draft,published',
             'seo_title' => 'nullable|string|max:255',
@@ -35,7 +36,7 @@ class ArticleController extends Controller
         ]);
 
         // สร้าง slug
-        $data['slug'] = Str::slug($data['title']);
+        // $data['slug'] = Str::slug($data['title']);
         $data['created_by'] = Auth::id();
 
         // ✅ Upload thumbnail ถ้ามี
@@ -58,6 +59,7 @@ class ArticleController extends Controller
     {
         $data = $request->validate([
             'title' => 'required|string|max:255',
+            'slug' => 'required|string|max:255',
             'content' => 'nullable|string',
             'status' => 'required|in:draft,published',
             'seo_title' => 'nullable|string|max:255',
@@ -66,7 +68,7 @@ class ArticleController extends Controller
             'thumbnail' => 'nullable|image|mimes:jpg,jpeg,png,webp,gif|max:2048',
         ]);
 
-        $data['slug'] = Str::slug($data['title']);
+        // $data['slug'] = Str::slug($data['title']);
 
         // ✅ อัปโหลดรูปใหม่ถ้ามี
         if ($request->hasFile('thumbnail')) {

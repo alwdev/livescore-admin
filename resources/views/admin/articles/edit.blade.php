@@ -56,11 +56,11 @@
         <!-- 🧩 Main Content -->
         <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div class="lg:col-span-2 space-y-8">
-                @include('admin.articles._form', ['article' => $article])
+                @include('admin.articles._form')
             </div>
 
             <div>
-                @include('admin.articles._sidebar', ['article' => $article])
+                @include('admin.articles._sidebar')
             </div>
         </div>
     </div>

@@ -39,6 +39,27 @@
                     placeholder="Enter article slug...">
             </div>
 
+            <!-- Article Type -->
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Article Type <span
+                        class="text-red-500">*</span></label>
+                <select id="type" name="type"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white">
+                    <option value="">Select article type...</option>
+                    <option value="sports_news"
+                        {{ old('type', $article->type ?? '') == 'sports_news' ? 'selected' : '' }}>
+                        📰 ข่าวกีฬา (Sports News)
+                    </option>
+                    <option value="match_analysis"
+                        {{ old('type', $article->type ?? '') == 'match_analysis' ? 'selected' : '' }}>
+                        ⚽ วิเคราะห์ผลบอล (Match Analysis)
+                    </option>
+                </select>
+                @error('type')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+
             <!-- Content -->
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-2">Content <span
@@ -201,6 +222,69 @@
                 fileInput.value = '';
                 removeBtn.classList.add('hidden');
             });
+
+            // ✅ Auto-generate slug from title
+            const titleInput = document.getElementById('title');
+            const slugInput = document.getElementById('slug');
+
+            titleInput?.addEventListener('input', function() {
+                if (slugInput) {
+                    const slug = this.value
+                        .toLowerCase()
+                        .trim()
+                        .replace(/[^\u0e00-\u0e7fa-z0-9\s-]/g, '') // รองรับภาษาไทย
+                        .replace(/\s+/g, '-')
+                        .replace(/-+/g, '-')
+                        .replace(/^-+|-+$/g, '');
+                    slugInput.value = slug;
+                }
+            });
+
+            // ✅ Form validation
+            const form = document.getElementById('article-form');
+            form?.addEventListener('submit', function(e) {
+                const title = document.getElementById('title').value.trim();
+                const type = document.getElementById('type').value;
+                const content = tinymce.get('content').getContent();
+
+                if (!title) {
+                    e.preventDefault();
+                    alert('กรุณาใส่ชื่อบทความ');
+                    document.getElementById('title').focus();
+                    return;
+                }
+
+                if (!type) {
+                    e.preventDefault();
+                    alert('กรุณาเลือกประเภทข่าว');
+                    document.getElementById('type').focus();
+                    return;
+                }
+
+                if (!content.trim()) {
+                    e.preventDefault();
+                    alert('กรุณาใส่เนื้อหาบทความ');
+                    tinymce.get('content').focus();
+                    return;
+                }
+            });
         });
+
+        // ✅ Global functions for form submission
+        window.saveAsDraft = function() {
+            const statusField = document.querySelector('input[name="status"]');
+            if (statusField) {
+                statusField.value = 'draft';
+            }
+            document.getElementById('article-form').submit();
+        }
+
+        window.publishArticle = function() {
+            const statusField = document.querySelector('input[name="status"]');
+            if (statusField) {
+                statusField.value = 'published';
+            }
+            document.getElementById('article-form').submit();
+        }
     </script>
 @endpush

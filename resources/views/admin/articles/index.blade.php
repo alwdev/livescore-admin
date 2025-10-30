@@ -28,6 +28,7 @@
                 <thead>
                     <tr class="bg-indigo-50 text-gray-700 text-sm uppercase tracking-wide">
                         <th class="px-4 py-3 font-semibold">Title</th>
+                        <th class="px-4 py-3 font-semibold">Type</th>
                         <th class="px-4 py-3 font-semibold">Status</th>
                         <th class="px-4 py-3 font-semibold">Created</th>
                         <th class="px-4 py-3 font-semibold text-right">Actions</th>
@@ -37,6 +38,12 @@
                     @forelse ($articles as $article)
                         <tr class="hover:bg-gray-50 transition">
                             <td class="px-4 py-3 font-medium">{{ $article->title }}</td>
+                            <td class="px-4 py-3">
+                                <span class="inline-flex items-center gap-1 text-sm text-gray-600">
+                                    {{ $article->type_icon }}
+                                    {{ $article->type_name }}
+                                </span>
+                            </td>
                             <td class="px-4 py-3">
                                 @if ($article->status === 'published')
                                     <span
@@ -64,7 +71,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="text-center py-6 text-gray-500">No articles found.</td>
+                            <td colspan="5" class="text-center py-6 text-gray-500">No articles found.</td>
                         </tr>
                     @endforelse
                 </tbody>

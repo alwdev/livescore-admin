@@ -27,6 +27,7 @@ class ArticleController extends Controller
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'slug' => 'required|string|max:255',
+            'type' => 'required|in:sports_news,match_analysis',
             'content' => 'nullable|string',
             'status' => 'required|in:draft,published',
             'seo_title' => 'nullable|string|max:255',
@@ -60,6 +61,7 @@ class ArticleController extends Controller
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'slug' => 'required|string|max:255',
+            'type' => 'required|in:sports_news,match_analysis',
             'content' => 'nullable|string',
             'status' => 'required|in:draft,published',
             'seo_title' => 'nullable|string|max:255',

@@ -21,6 +21,19 @@
             </span>
         </div>
 
+        <!-- Article Type -->
+        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+            <span class="text-sm font-medium text-gray-700">Article Type</span>
+            <span class="text-sm text-gray-600 flex items-center gap-1">
+                @if (isset($article) && $article->type)
+                    {{ $article->type_icon }}
+                    {{ $article->type_name }}
+                @else
+                    📝 Not specified
+                @endif
+            </span>
+        </div>
+
         <!-- Author -->
         <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
             <span class="text-sm font-medium text-gray-700">Author</span>

@@ -15,6 +15,7 @@ class Article extends Model
     protected $fillable = [
         'title',
         'slug',
+        'type',
         'content',
         'status',
         'seo_title',
@@ -78,5 +79,36 @@ class Article extends Model
     public function isDraft()
     {
         return $this->status === 'draft';
+    }
+
+    // 🏷️ Helper: เช็คประเภทข่าว
+    public function isSportsNews()
+    {
+        return $this->type === 'sports_news';
+    }
+
+    public function isMatchAnalysis()
+    {
+        return $this->type === 'match_analysis';
+    }
+
+    // 🎨 Helper: ได้ชื่อประเภทเป็นภาษาไทย
+    public function getTypeNameAttribute()
+    {
+        return match ($this->type) {
+            'sports_news' => 'ข่าวกีฬา',
+            'match_analysis' => 'วิเคราะห์ผลบอล',
+            default => 'ไม่ระบุ'
+        };
+    }
+
+    // 🎯 Helper: ได้ icon สำหรับแต่ละประเภท
+    public function getTypeIconAttribute()
+    {
+        return match ($this->type) {
+            'sports_news' => '📰',
+            'match_analysis' => '⚽',
+            default => '📝'
+        };
     }
 }

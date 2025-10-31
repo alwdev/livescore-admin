@@ -92,12 +92,18 @@ class Article extends Model
         return $this->type === 'match_analysis';
     }
 
+    public function isFootballTips()
+    {
+        return $this->type === 'football_tips';
+    }
+
     // 🎨 Helper: ได้ชื่อประเภทเป็นภาษาไทย
     public function getTypeNameAttribute()
     {
         return match ($this->type) {
             'sports_news' => 'ข่าวกีฬา',
             'match_analysis' => 'วิเคราะห์ผลบอล',
+            'football_tips' => 'ทีเด็ดบอล',
             default => 'ไม่ระบุ'
         };
     }
@@ -108,6 +114,7 @@ class Article extends Model
         return match ($this->type) {
             'sports_news' => '📰',
             'match_analysis' => '⚽',
+            'football_tips' => '🎯',
             default => '📝'
         };
     }

@@ -54,6 +54,10 @@
                         {{ old('type', $article->type ?? '') == 'match_analysis' ? 'selected' : '' }}>
                         ⚽ วิเคราะห์ผลบอล (Match Analysis)
                     </option>
+                    <option value="football_tips"
+                        {{ old('type', $article->type ?? '') == 'football_tips' ? 'selected' : '' }}>
+                        🎯 ทีเด็ดบอล (Football Tips)
+                    </option>
                 </select>
                 @error('type')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>

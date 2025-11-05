@@ -62,7 +62,7 @@
                         <tr class="hover:bg-gray-50 transition">
                             <td class="px-4 py-3">
                                 @if ($team->logo)
-                                    <img src="{{ asset('storage/' . $team->logo) }}" alt="{{ $team->name_en }}"
+                                    <img src="{{ $team->logo }}" alt="{{ $team->name_en }}"
                                         class="w-8 h-8 rounded-full object-cover">
                                 @else
                                     <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">

@@ -24,6 +24,7 @@ class Article extends Model
         'thumbnail',
         'created_by',
         'published_at',
+        'fixture_id',
     ];
 
     protected $casts = [
@@ -34,6 +35,12 @@ class Article extends Model
     public function author()
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    // 🔁 ความสัมพันธ์กับ Fixture
+    public function fixture()
+    {
+        return $this->belongsTo(Fixture::class);
     }
 
     // 🧠 Accessor: ถ้าไม่มีรูปปก ให้ fallback เป็น placeholder

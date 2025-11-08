@@ -57,8 +57,7 @@
                                 data-id="{{ $r->league->id }}">
                                 <div class="flex items-center gap-3">
                                     @if ($r->league->logo)
-                                        <img src="{{ asset('storage/' . $r->league->logo) }}"
-                                            class="w-8 h-8 object-contain" />
+                                        <img src="{{ $r->league->logo }}" class="w-8 h-8 object-contain" />
                                     @else
                                         <div class="w-8 h-8 bg-gray-100 rounded"></div>
                                     @endif

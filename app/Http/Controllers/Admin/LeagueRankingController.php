@@ -34,14 +34,14 @@ class LeagueRankingController extends Controller
     {
         $data = $request->validate([
             'league_ids' => 'array|max:10',
-            'league_ids.*' => 'integer|exists:leagues,id',
+            'league_ids.*' => 'integer|distinct|exists:leagues,id',
         ]);
 
-        $leagueIds = $data['league_ids'] ?? [];
+        $leagueIds = array_values($data['league_ids'] ?? []);
 
         DB::transaction(function () use ($leagueIds) {
-            // Clear existing rankings
-            LeagueRanking::truncate();
+            // Clear existing rankings using DELETE (TRUNCATE causes implicit commit and breaks transactions)
+            LeagueRanking::query()->delete();
 
             // Insert in order
             foreach ($leagueIds as $index => $leagueId) {

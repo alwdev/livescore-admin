@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\LeagueController;
 use App\Http\Controllers\Admin\TeamController;
+use App\Http\Controllers\Admin\LeagueRankingController;
 
 // เส้นทางของผู้ใช้ทั่วไป (เช่น profile)
 Route::middleware('auth')->group(function () {
@@ -39,6 +40,13 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     // Teams management (only index and update)
     Route::get('/teams', [TeamController::class, 'index'])->name('admin.teams.index');
     Route::put('/teams/{team}', [TeamController::class, 'update'])->name('admin.teams.update');
+
+    // League Rankings (Top 10)
+    Route::get('/league-rankings', [LeagueRankingController::class, 'index'])->name('admin.league-rankings.index');
+    Route::post('/league-rankings', [LeagueRankingController::class, 'update'])->name('admin.league-rankings.update');
 });
+
+// Public API endpoint for frontend to consume top leagues
+Route::get('/api/top-leagues', [LeagueRankingController::class, 'apiTopLeagues']);
 
 require __DIR__ . '/auth.php';

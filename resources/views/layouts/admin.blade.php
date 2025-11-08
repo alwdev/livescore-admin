@@ -156,6 +156,23 @@
                         class="font-medium whitespace-nowrap">จัดการทีม</span>
                 </a>
 
+                <!-- Top Leagues -->
+                <a href="{{ route('admin.league-rankings.index') }}"
+                    x-tooltip="sidebarCollapsed ? 'Top Leagues' : ''"
+                    class="group flex items-center rounded-xl transition-all duration-200 {{ request()->is('admin/league-rankings*') ? 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg' : 'text-gray-700 hover:bg-gray-50 hover:text-indigo-600' }}"
+                    :class="sidebarCollapsed ? 'px-2 py-3 justify-center' : 'px-4 py-3 gap-3'">
+                    <div
+                        class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 {{ request()->is('admin/league-rankings*') ? 'bg-white/20' : 'bg-gray-100 group-hover:bg-indigo-100' }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 3v18l7-4 7 4V3" />
+                        </svg>
+                    </div>
+                    <span x-show="!sidebarCollapsed" x-transition class="font-medium whitespace-nowrap">Top
+                        Leagues</span>
+                </a>
+
                 <!-- Users -->
                 <a href="{{ route('admin.users.index') }}" x-tooltip="sidebarCollapsed ? 'Users' : ''"
                     class="group flex items-center rounded-xl transition-all duration-200 {{ request()->is('admin/users*') ? 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg' : 'text-gray-700 hover:bg-gray-50 hover:text-indigo-600' }}"

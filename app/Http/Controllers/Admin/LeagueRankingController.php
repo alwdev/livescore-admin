@@ -33,11 +33,11 @@ class LeagueRankingController extends Controller
     public function update(Request $request)
     {
         $data = $request->validate([
-            'league_ids' => 'array|max:10',
+            'league_ids' => 'array|max:12',
             'league_ids.*' => 'integer|distinct|exists:leagues,id',
         ]);
 
-        $leagueIds = array_values($data['league_ids'] ?? []);
+        $leagueIds = array_values($data['league_ids'] ?? []); // now up to 12
 
         DB::transaction(function () use ($leagueIds) {
             // Clear existing rankings using DELETE (TRUNCATE causes implicit commit and breaks transactions)
@@ -65,7 +65,7 @@ class LeagueRankingController extends Controller
         $data = Cache::remember('top_leagues', 600, function () {
             return LeagueRanking::with('league')
                 ->orderBy('position')
-                ->take(10)
+                ->take(12)
                 ->get()
                 ->map(function ($r) {
                     return [

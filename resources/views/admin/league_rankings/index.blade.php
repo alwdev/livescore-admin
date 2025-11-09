@@ -1,8 +1,8 @@
 @extends('layouts.admin')
 
-@section('title', 'จัดอันดับลีก (Top 10)')
-@section('header', 'จัดอันดับลีก (Top 10)')
-@section('description', 'เลือก 10 ลีกยอดนิยมเพื่อแสดงในหน้าเว็บไซต์ และจัดเรียงลำดับด้วยการลากวาง')
+@section('title', 'จัดอันดับลีก (Top 12)')
+@section('header', 'จัดอันดับลีก (Top 12)')
+@section('description', 'เลือก 12 ลีกยอดนิยมเพื่อแสดงในหน้าเว็บไซต์ และจัดเรียงลำดับด้วยการลากวาง')
 
 @section('content')
     <div class="max-w-6xl mx-auto space-y-6">
@@ -46,7 +46,7 @@
 
             <div class="bg-white border rounded-xl p-4">
                 <div class="flex items-center justify-between">
-                    <h3 class="font-semibold">10 ลีกยอดนิยม (ลากเพื่อเรียง)</h3>
+                    <h3 class="font-semibold">12 ลีกยอดนิยม (ลากเพื่อเรียง)</h3>
                     <span class="text-sm text-gray-500" id="selectedCount"></span>
                 </div>
                 <form id="rankingForm" method="POST" action="{{ route('admin.league-rankings.update') }}" class="mt-3">
@@ -77,7 +77,7 @@
 
                     <div id="hiddenInputs"></div>
                     <div class="mt-4 flex items-center justify-between">
-                        <p class="text-sm text-gray-500">บันทึกได้สูงสุด 10 ลีก</p>
+                        <p class="text-sm text-gray-500">บันทึกได้สูงสุด 12 ลีก</p>
                         <button
                             class="px-5 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white disabled:opacity-50"
                             id="saveBtn">บันทึก</button>
@@ -112,8 +112,8 @@
                     input.value = li.dataset.id;
                     hiddenInputs.appendChild(input);
                 });
-                selectedCount.textContent = `เลือกแล้ว ${items.length}/10`;
-                saveBtn.disabled = items.length === 0 || items.length > 10;
+                selectedCount.textContent = `เลือกแล้ว ${items.length}/12`;
+                saveBtn.disabled = items.length === 0 || items.length > 12;
             }
 
             // init sortable
@@ -128,8 +128,8 @@
                 if (!btn) return;
                 const id = btn.dataset.id;
                 if (selectedList.querySelector(`li[data-id="${id}"]`)) return;
-                if (selectedList.querySelectorAll('li[data-id]').length >= 10) {
-                    alert('เลือกได้สูงสุด 10 ลีก');
+                if (selectedList.querySelectorAll('li[data-id]').length >= 12) {
+                    alert('เลือกได้สูงสุด 12 ลีก');
                     return;
                 }
 

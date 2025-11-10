@@ -19,8 +19,7 @@ class LeagueRankingController extends Controller
         $search = $request->get('search');
         $availableLeagues = League::query()
             ->when($search, function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                    ->orWhere('name_en', 'like', "%{$search}%")
+                $q->where('name_en', 'like', "%{$search}%")
                     ->orWhere('name_th', 'like', "%{$search}%");
             })
             ->orderBy('name_en')
@@ -70,7 +69,6 @@ class LeagueRankingController extends Controller
                 ->map(function ($r) {
                     return [
                         'id' => $r->league->id,
-                        'name' => $r->league->name_th ?? ($r->league->name ?? $r->league->name_en),
                         'name_th' => $r->league->name_th,
                         'name_en' => $r->league->name_en,
                         'country' => $r->league->country,

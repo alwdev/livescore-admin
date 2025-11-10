@@ -9,6 +9,8 @@ class League extends Model
 {
     use HasFactory;
 
+    protected $table = 'competitions';
+
     protected $fillable = ['uuid', 'name', 'name_en', 'name_th', 'country', 'logo'];
 
     public function fixtures()

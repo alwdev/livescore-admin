@@ -23,7 +23,7 @@ class LeagueRankingController extends Controller
                     ->orWhere('name_en', 'like', "%{$search}%")
                     ->orWhere('name_th', 'like', "%{$search}%");
             })
-            ->orderBy('name')
+            ->orderBy('name_en')
             ->limit(50)
             ->get();
 

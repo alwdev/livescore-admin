@@ -1,5 +1,4 @@
 <?php
-<?php
 
 namespace App\Http\Controllers\Admin;
 
@@ -38,16 +37,16 @@ class LeagueRankingController extends Controller
 
         // กรองข้อมูลก่อน validate
         $leagueIds = $request->input('league_ids', []);
-        
+
         // Debug: ดู raw league_ids
         Log::info('Raw league_ids:', ['data' => $leagueIds, 'type' => gettype($leagueIds)]);
-        
+
         $leagueIds = array_filter($leagueIds, function ($value) {
             $isValid = !is_null($value) && $value !== '' && is_numeric($value) && intval($value) > 0;
             Log::info('Filtering value:', ['value' => $value, 'type' => gettype($value), 'isValid' => $isValid]);
             return $isValid;
         });
-        
+
         $leagueIds = array_values(array_map('intval', $leagueIds)); // แปลงเป็น integer และ reindex
 
         Log::info('Filtered league IDs:', $leagueIds);
@@ -56,7 +55,7 @@ class LeagueRankingController extends Controller
         // ตรวจสอบว่า leagues มีอยู่จริงก่อน validate
         $existingLeagues = League::whereIn('id', $leagueIds)->pluck('id')->toArray();
         $nonExistingIds = array_diff($leagueIds, $existingLeagues);
-        
+
         Log::info('Existing leagues:', $existingLeagues);
         Log::info('Non-existing IDs:', $nonExistingIds);
 
@@ -67,7 +66,7 @@ class LeagueRankingController extends Controller
 
         // Validate หลังจากกรองแล้ว
         $request->merge(['league_ids' => $leagueIds]);
-        
+
         $data = $request->validate([
             'league_ids' => 'required|array|min:1|max:12',
             'league_ids.*' => 'integer|min:1',

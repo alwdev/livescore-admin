@@ -40,7 +40,6 @@ class LeagueRankingController extends Controller
             'league_ids.*' => 'integer|distinct|exists:leagues,id',
         ]);
 
-
         // Filter out empty values และเรียงใหม่
         $leagueIds = array_filter($data['league_ids'] ?? []);
         $leagueIds = array_values($leagueIds); // reindex
@@ -51,7 +50,6 @@ class LeagueRankingController extends Controller
         if (empty($leagueIds)) {
             return redirect()->route('admin.league-rankings.index')->with('error', 'กรุณาเลือกลีกอย่างน้อย 1 ลีก');
         }
-
         DB::transaction(function () use ($leagueIds) {
 
             // Clear existing rankings

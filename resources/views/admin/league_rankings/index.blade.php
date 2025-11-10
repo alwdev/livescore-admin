@@ -10,6 +10,20 @@
             <div class="p-3 rounded bg-green-50 text-green-700 border border-green-200">{{ session('success') }}</div>
         @endif
 
+        @if (session('error'))
+            <div class="p-3 rounded bg-red-50 text-red-700 border border-red-200">{{ session('error') }}</div>
+        @endif
+
+        @if ($errors->any())
+            <div class="p-3 rounded bg-red-50 text-red-700 border border-red-200">
+                <ul class="list-disc list-inside space-y-1">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <form method="GET" class="flex gap-3">
             <input type="text" name="search" value="{{ $search }}" placeholder="ค้นหาลีก..."
                 class="flex-1 px-4 py-2 border rounded-lg" />
@@ -78,7 +92,7 @@
                     <div id="hiddenInputs"></div>
                     <div class="mt-4 flex items-center justify-between">
                         <p class="text-sm text-gray-500">บันทึกได้สูงสุด 12 ลีก</p>
-                        <button
+                        <button type="submit"
                             class="px-5 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white disabled:opacity-50"
                             id="saveBtn">บันทึก</button>
                     </div>
@@ -98,6 +112,7 @@
             const hiddenInputs = document.getElementById('hiddenInputs');
             const saveBtn = document.getElementById('saveBtn');
             const selectedCount = document.getElementById('selectedCount');
+            const form = document.getElementById('rankingForm');
 
             function recalc() {
                 // update positions and hidden inputs
@@ -115,6 +130,28 @@
                 selectedCount.textContent = `เลือกแล้ว ${items.length}/12`;
                 saveBtn.disabled = items.length === 0 || items.length > 12;
             }
+
+            // Form validation before submit
+            form.addEventListener('submit', function(e) {
+                const items = selectedList.querySelectorAll('li[data-id]');
+                const count = items.length;
+
+                if (count === 0) {
+                    e.preventDefault();
+                    alert('กรุณาเลือกลีกอย่างน้อย 1 ลีก');
+                    return;
+                }
+
+                if (count > 12) {
+                    e.preventDefault();
+                    alert('เลือกได้สูงสุด 12 ลีกเท่านั้น');
+                    return;
+                }
+
+                // Show loading state
+                saveBtn.disabled = true;
+                saveBtn.textContent = 'กำลังบันทึก...';
+            });
 
             // init sortable
             new Sortable(selectedList, {
@@ -141,6 +178,7 @@
                 removeBtn.type = 'button';
                 removeBtn.className = 'remove-btn px-2 py-1 text-sm rounded bg-red-50 text-red-600';
                 removeBtn.textContent = 'ลบ';
+                removeBtn.dataset.id = id;
                 clone.appendChild(removeBtn);
                 selectedList.appendChild(clone);
                 btn.disabled = true;

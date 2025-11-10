@@ -33,30 +33,34 @@ class LeagueRankingController extends Controller
     public function update(Request $request)
     {
         // Debug: ดูข้อมูลที่ส่งมา
-        Log::info('League IDs received:', $request->all());
+        Log::info('Raw request data:', $request->all());
 
-        $data = $request->validate([
-            'league_ids' => 'array|max:12',
-            'league_ids.*' => 'integer|distinct|exists:leagues,id',
-        ]);
-
-        // Filter out empty values และเรียงใหม่
-        $leagueIds = array_filter($data['league_ids'] ?? []);
+        // กรองข้อมูลก่อน validate
+        $leagueIds = $request->input('league_ids', []);
+        $leagueIds = array_filter($leagueIds, function ($value) {
+            return !is_null($value) && $value !== '' && is_numeric($value);
+        });
         $leagueIds = array_values($leagueIds); // reindex
 
+        Log::info('Filtered league IDs:', $leagueIds);
+        Log::info('Count:', count($leagueIds));
 
+        // Validate หลังจากกรองแล้ว
+        $data = $request->merge(['league_ids' => $leagueIds])->validate([
+            'league_ids' => 'required|array|min:1|max:12',
+            'league_ids.*' => 'integer|exists:leagues,id',
+        ]);
 
-
-        if (empty($leagueIds)) {
+        if (empty($data['league_ids'])) {
             return redirect()->route('admin.league-rankings.index')->with('error', 'กรุณาเลือกลีกอย่างน้อย 1 ลีก');
         }
-        DB::transaction(function () use ($leagueIds) {
 
+        DB::transaction(function () use ($data) {
             // Clear existing rankings
             LeagueRanking::query()->delete();
 
             // Insert in order
-            foreach ($leagueIds as $index => $leagueId) {
+            foreach ($data['league_ids'] as $index => $leagueId) {
                 LeagueRanking::create([
                     'league_id' => $leagueId,
                     'position' => $index + 1,
@@ -68,7 +72,7 @@ class LeagueRankingController extends Controller
         // Invalidate cache for API
         Cache::forget('top_leagues');
 
-        return redirect()->route('admin.league-rankings.index')->with('success', "อัปเดตอันดับลีกเรียบร้อยแล้ว (" . count($leagueIds) . " ลีก)");
+        return redirect()->route('admin.league-rankings.index')->with('success', "อัปเดตอันดับลีกเรียบร้อยแล้ว (" . count($data['league_ids']) . " ลีก)");
     }
 
     // Public JSON API for frontend consumption

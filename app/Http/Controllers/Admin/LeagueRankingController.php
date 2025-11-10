@@ -76,17 +76,17 @@ class LeagueRankingController extends Controller
             return redirect()->route('admin.league-rankings.index')->with('error', 'กรุณาเลือกลีกอย่างน้อย 1 ลีก');
         }
 
-        DB::transaction(function () use ($data, $existingLeagues) {
-            LeagueRanking::query()->delete();
+        // กรอง league_ids เฉพาะที่มีอยู่จริงใน League
+        $validLeagueIds = array_values(array_intersect($data['league_ids'], $existingLeagues));
 
-            foreach ($data['league_ids'] as $index => $leagueId) {
-                if (in_array($leagueId, $existingLeagues)) { // เพิ่มเช็คนี้
-                    LeagueRanking::create([
-                        'league_id' => $leagueId,
-                        'position' => $index + 1,
-                        'published' => true,
-                    ]);
-                }
+        DB::transaction(function () use ($validLeagueIds) {
+            LeagueRanking::query()->delete();
+            foreach ($validLeagueIds as $index => $leagueId) {
+                LeagueRanking::create([
+                    'league_id' => $leagueId,
+                    'position' => $index + 1,
+                    'published' => true,
+                ]);
             }
         });
         // Invalidate cache for API

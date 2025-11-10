@@ -11,7 +11,7 @@ class League extends Model
 
     protected $table = 'competitions';
 
-    protected $fillable = ['uuid', 'name', 'name_en', 'name_th', 'country', 'logo'];
+    protected $fillable = ['uuid', 'name_en', 'name_th', 'country', 'logo'];
 
     public function fixtures()
     {

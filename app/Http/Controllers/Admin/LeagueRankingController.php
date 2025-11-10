@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -43,7 +44,7 @@ class LeagueRankingController extends Controller
         $leagueIds = array_values($leagueIds); // reindex
 
         Log::info('Filtered league IDs:', $leagueIds);
-        Log::info('Count:', count($leagueIds));
+        Log::info('Count: ' . count($leagueIds)); // แก้ไขตรงนี้
 
         // Validate หลังจากกรองแล้ว
         $data = $request->merge(['league_ids' => $leagueIds])->validate([
